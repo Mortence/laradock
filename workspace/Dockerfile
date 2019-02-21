@@ -36,6 +36,10 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
+RUN sed -i "s/archive.ubuntu./mirrors.aliyun./g" /etc/apt/sources.list
+RUN sed -i "s/deb.debian.org/mirrors.aliyun.com/g" /etc/apt/sources.list
+RUN sed -i "s/security.debian.org/mirrors.aliyun.com\/debian-security/g" /etc/apt/sources.list
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
@@ -947,3 +951,6 @@ RUN apt-get clean && \
 
 # Set default work directory
 WORKDIR /var/www
+
+# Expose port for laravel-swoole
+EXPOSE 1215
